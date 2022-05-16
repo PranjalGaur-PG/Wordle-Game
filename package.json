@@ -4,7 +4,7 @@
   "description": "Wordle Game-App",
   "main": "server.js",
   "scripts": {
-    "dev" : "nodemon server"
+    "dev" : "nodemon servercd"
   },
   "author": "Pranjal Gaur",
   "license": "ISC"
