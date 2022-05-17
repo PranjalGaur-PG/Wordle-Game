@@ -9,5 +9,7 @@ app.get("/", (req, res) => {
   res.send("Welcome to Wordle API");
 });
 
+app.use('/session', require('./routes/session'));
+
 app.listen(port, () => console.log(`Running on Port : ${port}`));
 
