@@ -28,4 +28,8 @@ router.post('/', check('name', 'Name is required !').notEmpty(), async (req, res
     }
 });
 
+router.get('/', (req, res) => {
+    res.send("Session route");
+});
+
 module.exports = router;
