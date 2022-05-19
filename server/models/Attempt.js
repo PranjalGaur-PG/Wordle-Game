@@ -1,9 +1,11 @@
 const mongoose = require("mongoose");
 
-const Model = mongoose.Schema({
+const Attempt = mongoose.Schema({
   number: {
     type: "Number",
     required: true,
+    min : 1,
+    max : 6
   },
   response: {
     type: "String",
@@ -19,4 +21,4 @@ const Model = mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("attempt", Model);
+module.exports = Attempt;
