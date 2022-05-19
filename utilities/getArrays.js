@@ -1,0 +1,5 @@
+const getArrays = (word, response) => {
+
+
+
+}
