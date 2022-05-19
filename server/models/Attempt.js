@@ -8,17 +8,14 @@ const Attempt = mongoose.Schema({
     max : 6
   },
   response: {
-    type: "String",
+    type: String,
     required: true,
   },
-  green: {
-    type: ["Number"],
+  color: {
+    type: [String],
     required: true,
-  },
-  yellow: {
-    type: ["Number"],
-    required: true,
-  },
+  }
+
 });
 
-module.exports = Attempt;
+module.exports = mongoose.model("attempt", Attempt);

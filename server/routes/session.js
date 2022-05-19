@@ -3,6 +3,8 @@ const express = require("express");
 const {check, validationResult} = require("express-validator");
 const fetchWord = require("../utilities/fetchWord");
 const checkWord = require("../utilities/checkWord");
+const getArrays = require("../utilities/getArrays");
+const Attempt = require("../models/Attempt");
 
 const router = express.Router();
 
@@ -49,15 +51,30 @@ router.post('/add_attempt', check('response', 'Response is required').notEmpty()
             return res.status(400).send({ error : "Invalid Session" });
         }
 
-        if(response.length !== 5) {
+        const { word, attempts } = sess;
+
+        if(response.length !== 5 || attempts.length === 6) {
             return res.status(400).send({ error : "Invalid Response" });
         }
 
-        // const resCheck = await checkWord(response);
-        // console.log(resCheck);
-        // if(!resCheck) {
-        //     return res.status(400).send({ error : "Please enter a valid English word."});
-        // }
+        const resCheck = await checkWord(response);
+
+        if(!resCheck) {
+            return res.status(400).send({ error : "Please enter a valid English word."});
+        }
+
+        const color = getArrays(word, response);
+        console.log(color);
+        console.log(word, response);
+
+        const attempt = new Attempt({
+            number : attempts.length + 1,
+            response,
+            color
+        });
+
+        sess.attempts = [...sess.attempts, attempt];
+        await sess.save();
 
     } catch (err) {
         console.log(err);
