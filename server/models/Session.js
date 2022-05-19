@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const Attempt = require("./Attempt");
 
 const Session = mongoose.Schema({
   name: {
@@ -11,7 +10,7 @@ const Session = mongoose.Schema({
     required: true,
   },
   attempts: {
-    type: [Attempt],
+    type: [mongoose.Schema.Types.ObjectId],
     ref: "attempt",
   },
   Date: {
