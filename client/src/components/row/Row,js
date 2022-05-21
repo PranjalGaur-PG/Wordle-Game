@@ -2,10 +2,15 @@ import React from "react";
 import Block from "../block/Block";
 import './Row.scss';
 
-const Row = () => {
+const Row = ({ input }) => {
+  
+  console.log("pp", input);
+
   let row = [];
-  for (var i = 0; i < 5; i++) row.push(<Block />);
-  return <div className="letter-row">{row}</div>;
+  for (var i = 0; i < 5; i++)
+    row.push(<Block char={input.length >= i + 1 ? input[i] : "-"} key={i} />);
+  
+    return <div className="letter-row">{row}</div>;
 };
 
 export default Row;
