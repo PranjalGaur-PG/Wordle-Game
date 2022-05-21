@@ -23,7 +23,7 @@ router.post("/", check("name", "Name is Required!").notEmpty(), async (req, res)
 
         // console.log(word);
 
-        const session = new Session({ name, word });
+        const session = new Session({ name, word : word.toUpperCase() });
         await session.save();
 
         res.json({ name: session.name, session_id: session._id });
@@ -34,15 +34,19 @@ router.post("/", check("name", "Name is Required!").notEmpty(), async (req, res)
     }
 });
 
-router.post("/add_attempt", check("response", "Response is required").notEmpty(), async (req, res) => {
+router.post("/add_attempt", 
+        [check("response", "Response is required").notEmpty(), check("session", "Session is required").notEmpty()],
+        async (req, res) => {
     
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
+        console.log(errors);
         return res.status(400).json({ errors: errors.array() });
     }
 
     try {
+        
         const { session, response } = req.body;
         const sess = await Session.findOne({ _id: session });
 

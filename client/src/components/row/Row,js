@@ -1,16 +1,19 @@
 import React from "react";
 import Block from "../block/Block";
-import './Row.scss';
+import "./Row.scss";
 
-const Row = ({ input }) => {
-  
-  console.log("pp", input);
-
+const Row = ({ attempt }) => {
+  const { response, color } = attempt;
   let row = [];
   for (var i = 0; i < 5; i++)
-    row.push(<Block char={input.length >= i + 1 ? input[i] : "-"} key={i} />);
-  
-    return <div className="letter-row">{row}</div>;
+    row.push(
+      <Block
+        char={response.length >= i + 1 ? response[i] : "-"}
+        color={color.length === 5 ? color[i] : "blue"}
+        key={i}
+      />
+    );
+  return <div className="letter-row">{row}</div>;
 };
 
 export default Row;

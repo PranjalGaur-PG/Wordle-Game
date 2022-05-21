@@ -10,7 +10,7 @@ function App() {
 
   const [name, setName] = useState("");
   const [session, setSession] = useState("");
-  const [attempts, setAttempts] = useState([]);
+  const [attempts, setAttempts] = useState([{ response: "", color: [] }]);
 
   return (
     <Router>
