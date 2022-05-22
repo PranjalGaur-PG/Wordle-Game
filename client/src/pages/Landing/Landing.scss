@@ -3,7 +3,7 @@ $background: #f5f6fa;
 $text: #9c9c9c;
 $input-bg-color: #fff;
 $input-text-color: #a3a3a3;
-$button-bg-color: #7f8ff4;
+$button-bg-color: #36454f;
 $button-text-color: #fff;
 
 a {
@@ -21,6 +21,9 @@ a {
   align-items: center;
   justify-content: center;
   height: 90vh;
+  h1 {
+    font-family: "Monoton";
+  }
 }
 
 //** button
@@ -68,5 +71,14 @@ a {
     border: 0;
     outline: 0;
     padding: 22px 18px;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .form {
+    justify-content: center;
+  }
+  .btn--inside {
+    margin: auto;
   }
 }

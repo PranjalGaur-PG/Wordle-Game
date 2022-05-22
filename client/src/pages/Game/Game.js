@@ -3,44 +3,44 @@ import Row from "../../components/row/Row";
 import Keyboard from "../../components/keyboard/Keyboard";
 import { addAttempt } from "../../api/wordleAPI";
 
-const Game = ({ attempts, setAttempts, session }) => {
-  // const [board, setBoard] = useState([
-  //   <Row attempts={attempts} key={0} />,
-  //   <Row attempts={attempts} key={1} />,
-  //   <Row attempts={attempts} key={2} />,
-  //   <Row attempts={attempts} key={3} />,
-  //   <Row attempts={attempts} key={4} />,
-  //   <Row attempts={attempts} key={5} />,
-  // ]);
-
+const Game = ({
+  attempts,
+  setAttempts,
+  session,
+  loading,
+  setLoading,
+  setSuccess,
+  setAlert,
+}) => {
   const [input, setInput] = useState("");
 
-  // useEffect(() => {
-  //   console.log(input);
-  //   let temp_board = board;
-
-  //   temp_board[attempts.length] = <Row input={input} key={attempts.length} />;
-
-  //   setBoard([...temp_board]);
-  // }, [input]);
+  useEffect(() => {
+    document.getElementById("game").focus();
+  }, []);
 
   function isLetter(str) {
     return str.length === 1 && str.match(/[a-z]/i);
   }
 
   const handleSubmit = async () => {
-    const attempt = await addAttempt(input, session);
-    console.log(attempt);
-
-    let temp_attempts = attempts;
-    temp_attempts[attempts.length - 1] = attempt;
-    setAttempts([...temp_attempts, { response: "", color: [] }]);
+    setLoading(true);
+    const res = await addAttempt(input, session, setAlert);
+    if (res) {
+      if (res.success) {
+        setSuccess(true);
+      }
+      const attempt = res.attempt;
+      let temp_attempts = attempts;
+      temp_attempts[attempts.length - 1] = attempt;
+      setAttempts([...temp_attempts, { response: "", color: [] }]);
+    }
     setInput("");
+    setLoading(false);
     console.log(attempts);
   };
 
   const handler = (e) => {
-    var ch = e.key;
+    var ch = e;
 
     console.log("char", ch);
 
@@ -73,9 +73,15 @@ const Game = ({ attempts, setAttempts, session }) => {
   }
 
   return (
-    <div onKeyDown={(e) => handler(e)} tabIndex={0}>
+    <div
+      onKeyDown={(e) => handler(e.key)}
+      tabIndex={0}
+      className="game"
+      id="game"
+      onClick={() => console.log("click")}
+    >
       <div className="game-board">{board}</div>
-      <Keyboard />
+      <Keyboard handler={handler} />
     </div>
   );
 };

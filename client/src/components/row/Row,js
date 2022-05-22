@@ -8,8 +8,8 @@ const Row = ({ attempt }) => {
   for (var i = 0; i < 5; i++)
     row.push(
       <Block
-        char={response.length >= i + 1 ? response[i] : "-"}
-        color={color.length === 5 ? color[i] : "blue"}
+        char={response.length >= i + 1 ? response[i] : " "}
+        color={color.length === 5 ? color[i] : "def"}
         key={i}
       />
     );

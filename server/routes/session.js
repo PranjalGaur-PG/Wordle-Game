@@ -8,85 +8,98 @@ const Attempt = require("../models/Attempt");
 
 const router = express.Router();
 
-router.post("/", check("name", "Name is Required!").notEmpty(), async (req, res) => {
-
+router.post(
+  "/",
+  check("name", "Name is Required!").notEmpty(),
+  async (req, res) => {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
+      return res.status(400).json({ error: errors.errors[0].msg });
     }
 
     try {
+      const { name } = req.body;
+      const word = await fetchWord();
 
-        const { name } = req.body;
-        const word = await fetchWord();
+      // console.log(word);
 
-        // console.log(word);
+      const session = new Session({ name, word: word.toUpperCase() });
+      await session.save();
 
-        const session = new Session({ name, word : word.toUpperCase() });
-        await session.save();
-
-        res.json({ name: session.name, session_id: session._id });
-
+      res.json({ name: session.name, session_id: session._id });
     } catch (err) {
-        // console.log(err);
-        return res.status(500).send({ error: "Server Error!" });
+      // console.log(err);
+      return res.status(500).send({ error: "Server Error!" });
     }
-});
+  }
+);
 
-router.post("/add_attempt", 
-        [check("response", "Response is required").notEmpty(), check("session", "Session is required").notEmpty()],
-        async (req, res) => {
-    
+const countOccurrences = (arr, val) =>
+  arr.reduce((a, v) => (v === val ? a + 1 : a), 0);
+
+router.post(
+  "/add_attempt",
+  [
+    check("response", "Response is required").notEmpty(),
+    check("session", "Session is required").notEmpty(),
+  ],
+  async (req, res) => {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
-        console.log(errors);
-        return res.status(400).json({ errors: errors.array() });
+      console.log(errors);
+      return res.status(400).json({ error: errors.errors[0].msg });
     }
 
     try {
-        
-        const { session, response } = req.body;
-        const sess = await Session.findOne({ _id: session });
+      const { session, response } = req.body;
+      const sess = await Session.findOne({ _id: session });
 
-        if (!sess) {
-            return res.status(400).send({ error: "Invalid Session" });
-        }
+      if (!sess) {
+        return res.status(400).send({ error: "Invalid Session" });
+      }
 
-        const { word, attempts } = sess;
+      const { word, attempts } = sess;
 
-        if (response.length !== 5 || attempts.length === 6) {
-            return res.status(400).send({ error: "Invalid Response" });
-        }
+      if (response.length !== 5 || attempts.length === 6) {
+        return res.status(400).send({ error: "Invalid Response" });
+      }
 
-        const resCheck = await checkWord(response);
+      const resCheck = await checkWord(response);
 
-        if (!resCheck) {
-            return res.status(400).send({ error: "Please enter a valid English word." });
-        }
+      if (!resCheck && word !== response) {
+        return res
+          .status(400)
+          .send({ error: "Please enter a valid English word." });
+      }
 
-        const color = getArrays(word, response);
-        // console.log(color);
-        // console.log(word, response);
+      const color = getArrays(word, response);
+      let success = false;
+      if (countOccurrences(color, "Green") === 5) success = true;
+      // console.log(word, response);
 
-        const attempt = new Attempt({ number: attempts.length + 1, response, color, });
+      const attempt = new Attempt({
+        number: attempts.length + 1,
+        response,
+        color,
+      });
 
-        await attempt.save();
+      await attempt.save();
 
-        sess.attempts = [...sess.attempts, attempt._id];
-        await sess.save();
+      sess.attempts = [...sess.attempts, attempt._id];
+      await sess.save();
 
-        res.json(attempt);
-
+      res.json({ attempt, success });
     } catch (err) {
-        // console.log(err);
-        return res.status(500).send({ error: "Server Error" });
+      // console.log(err);
+      return res.status(500).send({ error: "Server Error" });
     }
-});
+  }
+);
 
 router.get("/", (req, res) => {
-    res.send("Session route");
+  res.send("Session route");
 });
 
 module.exports = router;
