@@ -1,30 +1,24 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import "./Success.scss";
+import "./Gameover.scss";
 
-const Success = ({ success, setSuccess }) => {
+const Gameover = ({ giveup, setGiveup, word }) => {
   const navigate = useNavigate();
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setSuccess(false);
-      navigate("/");
-    }, 15000);
-    return () => clearTimeout(timer);
-  }, [alert]);
 
-  if (success) {
+  if (giveup) {
     return (
-      <div className="modal-dialog animate__animated animate__backInDown head_success">
+      <div className="modal-dialog animate__animated animate__backInDown head_giveup">
         <div className="modal-content">
           <div className="modal-header">
-            <h1>Congratulations !!</h1>
+            <h1>Game Over !!</h1>
           </div>
           <div className="modal-body">
+            <h3 className="text-center"> Word : {word}</h3>
             <lottie-player
-              src="https://assets2.lottiefiles.com/packages/lf20_ky24lkyk.json"
+              src="https://assets3.lottiefiles.com/packages/lf20_nwyegy0h.json"
               background="transparent"
               speed="1"
-              style={{ width: "100%", height: "300px", margin: "auto" }}
+              style={{ width: "80%", height: "200px", margin: "auto" }}
               loop
               autoplay
             ></lottie-player>
@@ -34,7 +28,7 @@ const Success = ({ success, setSuccess }) => {
               type="button"
               className="btn btn-dark m-auto d-block"
               onClick={() => {
-                setSuccess(false);
+                setGiveup(false);
                 navigate("/");
               }}
             >
@@ -43,13 +37,8 @@ const Success = ({ success, setSuccess }) => {
           </div>
         </div>
       </div>
-
-      //   <div className="">
-      //
-
-      //   </div>
     );
   } else return null;
 };
 
-export default Success;
+export default Gameover;

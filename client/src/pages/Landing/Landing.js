@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./Landing.scss";
 import { useNavigate } from "react-router-dom";
 import { createSession } from "../../api/wordleAPI";
@@ -10,8 +10,15 @@ const Landing = ({
   loading,
   setLoading,
   setAlert,
+  setAttempts,
 }) => {
   const navigate = useNavigate();
+
+  useEffect(() => {
+    setSession(null);
+    setName("");
+    setAttempts([{ response: "", color: [] }]);
+  }, []);
 
   const handleClick = async () => {
     setLoading(true);

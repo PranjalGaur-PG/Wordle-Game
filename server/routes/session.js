@@ -98,8 +98,24 @@ router.post(
   }
 );
 
-router.get("/", (req, res) => {
-  res.send("Session route");
+router.get("/giveup/:id", async (req, res) => {
+  try {
+    const session_id = req.params.id;
+    if (!session_id) {
+      return res.status(400).send({ error: "Invalid session." });
+    }
+
+    const session = await Session.findById(session_id);
+
+    if (!session) {
+      return res.status(400).send({ error: "Invalid session." });
+    }
+
+    res.json(session);
+  } catch (err) {
+    console.log(err);
+    return res.status(500).send({ error: "Server Error" });
+  }
 });
 
 module.exports = router;

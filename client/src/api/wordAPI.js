@@ -21,3 +21,14 @@ export const addAttempt = async (response, session, setAlert) => {
     setAlert({ message: err.response.data.error, type: "danger" });
   }
 };
+
+export const giveup = async (session, setAlert) => {
+  try {
+    const res = await axios.get(`/session/giveup/${session}`);
+
+    return res.data.word;
+  } catch (err) {
+    console.log(err.response.data);
+    setAlert({ message: err.response.data.error, type: "danger" });
+  }
+};

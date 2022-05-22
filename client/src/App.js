@@ -8,11 +8,15 @@ import Spinner from "./components/spinner/Spinner";
 import { useState } from "react";
 import Alert from "./components/alert/Alert";
 import Success from "./components/success/Success";
+import Gameover from "./components/gameover/Gameover";
+import Footer from "./components/footer/Footer";
 
 function App() {
   const [alert, setAlert] = useState(null);
   const [success, setSuccess] = useState(false);
+  const [giveup, setGiveup] = useState(false);
   const [name, setName] = useState("");
+  const [word, setWord] = useState("");
   const [session, setSession] = useState("");
   const [loading, setLoading] = useState(false);
   const [attempts, setAttempts] = useState([{ response: "", color: [] }]);
@@ -24,6 +28,7 @@ function App() {
         <Alert alert={alert} setAlert={setAlert} />
         <Spinner loading={loading} />
         <Success success={success} setSuccess={setSuccess} />
+        <Gameover giveup={giveup} setGiveup={setGiveup} word={word} />
         <Routes>
           <Route
             path="/"
@@ -35,6 +40,7 @@ function App() {
                 loading={loading}
                 setLoading={setLoading}
                 setAlert={setAlert}
+                setAttempts={setAttempts}
               />
             }
           />
@@ -49,10 +55,13 @@ function App() {
                 setLoading={setLoading}
                 setAlert={setAlert}
                 setSuccess={setSuccess}
+                setGiveup={setGiveup}
+                setWord={setWord}
               />
             }
           />
         </Routes>
+        <Footer />
       </div>
     </Router>
   );

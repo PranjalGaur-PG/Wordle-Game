@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Row from "../../components/row/Row";
 import Keyboard from "../../components/keyboard/Keyboard";
-import { addAttempt } from "../../api/wordleAPI";
+import { addAttempt, giveup } from "../../api/wordleAPI";
+import "./Game.scss";
 
 const Game = ({
   attempts,
@@ -11,6 +12,8 @@ const Game = ({
   setLoading,
   setSuccess,
   setAlert,
+  setGiveup,
+  setWord,
 }) => {
   const [input, setInput] = useState("");
 
@@ -21,6 +24,12 @@ const Game = ({
   function isLetter(str) {
     return str.length === 1 && str.match(/[a-z]/i);
   }
+
+  const handleGameOver = async () => {
+    const word = await giveup(session, setAlert);
+    setWord(word);
+    setGiveup(true);
+  };
 
   const handleSubmit = async () => {
     setLoading(true);
@@ -33,6 +42,10 @@ const Game = ({
       let temp_attempts = attempts;
       temp_attempts[attempts.length - 1] = attempt;
       setAttempts([...temp_attempts, { response: "", color: [] }]);
+
+      if (attempts.length === 6) {
+        handleGameOver();
+      }
     }
     setInput("");
     setLoading(false);
@@ -82,6 +95,13 @@ const Game = ({
     >
       <div className="game-board">{board}</div>
       <Keyboard handler={handler} />
+      <button
+        type="button"
+        className="btn btn-danger giveupbtn"
+        onClick={handleGameOver}
+      >
+        GIVE UP
+      </button>
     </div>
   );
 };
