@@ -17,7 +17,7 @@ const Alert = ({ alert, setAlert }) => {
         className={`alert alert-${type} alert-dismissible fade show`}
         role="alert"
       >
-        <strong>Holy guacamole!</strong> {message}
+        <strong> {message} </strong> 
         <button
           type="button"
           className="close"

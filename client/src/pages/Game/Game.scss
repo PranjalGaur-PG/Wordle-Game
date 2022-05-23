@@ -3,8 +3,12 @@
     flex-direction: column;
     height: 80vh;
     margin-top: 35px;
+    outline: none;
     // margin-bottom: 50px;
   }
+.game:focus{
+  outline: none;
+}
   
   .giveupbtn {
     width: 200px;

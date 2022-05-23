@@ -1,7 +1,7 @@
 .footer-dark {
     padding: 15px;
-    position: absolute;
-    bottom: 0;
+    // position: absolute;
+    // bottom: 0;
     color: #f0f9ff;
     background-color: #282d32;
   }
@@ -16,7 +16,7 @@
   .footer-dark ul {
     padding: 0;
     list-style: none;
-    line-height: 1.6;
+    line-height: 2.5;
     font-size: 14px;
     margin-bottom: 0;
   }
@@ -34,6 +34,7 @@
   
   .footer-dark ul a:hover {
     opacity: 0.8;
+    text-emphasis: none;
   }
   
   @media (max-width: 767px) {
@@ -99,3 +100,7 @@
     display: flex;
     justify-content: space-evenly;
   }
+
+.wiki-link {
+  text-decoration: none;
+}
