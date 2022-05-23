@@ -14,7 +14,8 @@ const Footer = () => {
 
             <div className="col-md-8 item text">
               <a href="https://en.wikipedia.org/wiki/Wordle">
-                <h3 className="text-center">Wordle Game</h3>
+                {/* <h2 className="text-center">Wordle Game</h2> */}
+                <h3 className="text-center wiki-link">Check Rules</h3>
               </a>
               <p>
                 Wordle is simple: You have six chances to guess the day’s secret
@@ -26,17 +27,17 @@ const Footer = () => {
             <div className="col-md-2 col">
               <ul className="col item social">
                 <li>
-                  <a href="#">
+                  <a href="https://github.com/PranjalGaur-PG/Wordle-Game">
                     <i className="fa-brands fa-github"></i>
                   </a>
                 </li>
                 <li>
-                  <a href="#">
+                  <a href="mailto:pranjalgaur.20.12@gmail.com">
                     <i className="fa-solid fa-envelope"></i>
                   </a>
                 </li>
                 <li>
-                  <a href="#">
+                  <a href="https://www.linkedin.com/in/pranjal-gaur-106478193/">
                     <i className="fa-brands fa-linkedin-in"></i>
                   </a>
                 </li>
