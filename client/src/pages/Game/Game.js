@@ -94,7 +94,9 @@ const Game = ({
       onClick={() => console.log("click")}
     >
       <div className="game-board">{board}</div>
+
       <Keyboard handler={handler} />
+
       <button
         type="button"
         className="btn btn-danger giveupbtn"
